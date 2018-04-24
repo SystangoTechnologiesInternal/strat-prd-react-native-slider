@@ -1,0 +1,1 @@
+# strat-prd-react-native-slider
