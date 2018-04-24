@@ -250,7 +250,7 @@ export default class Slider extends PureComponent {
     var mainStyles = styles || defaultStyles;
     var thumbLeft = value.interpolate({
       inputRange: [minimumValue, maximumValue],
-      outputRange: [0, (this.props.Device.isTablet)?(this.props.OS == 'ios')?containerSize.width - thumbSize.width-8:containerSize.width - thumbSize.width:containerSize.width - thumbSize.width],
+      outputRange: [0, (this.props.Device.isTablet)?(this.props.OS == 'ios')?containerSize.width - thumbSize.width-8:containerSize.width - thumbSize.width - 5:containerSize.width - thumbSize.width],
       //extrapolate: 'clamp',
     });
     var valueVisibleStyle = {};
@@ -289,7 +289,7 @@ export default class Slider extends PureComponent {
               ...valueVisibleStyle,
               position:'absolute',
               height:80,
-              width:(this.props.maximumValue<25)?markerWidth + 12:markerWidth + 7 //Adjust sliderbox according to the points
+              width:(this.props.maximumValue<25)?markerWidth + 12:markerWidth + 10 //Adjust sliderbox according to the points
             }
           ]}
         >
@@ -330,7 +330,7 @@ export default class Slider extends PureComponent {
 
   _renderThumbImage = () => {
 
-    return <View style={{marginLeft: -1, width:markerWidth + 5, justifyContent:'center', alignItems:'center', height:50}}>
+    return <View style={{marginLeft: -1, width:markerWidth + 5, justifyContent:'center', alignItems:'center', height:(this.props.Device.isTablet)?(this.props.Device.isSmallTablet)?45:40:50}}>
             <Icon name="triangle-down" size={18} color={'#F57B20'}/>
             <View style={{width:markerWidth, height: (boxHeight / 2), backgroundColor:'#F57B20', flexDirection:'row', justifyContent:'center', alignItems:'center', marginTop:-6, borderWidth:0.5, borderColor:'#b24d01'}}>
               <Text style={{alignSelf:'center', fontSize:boxFont, color:'white'}}>
@@ -364,13 +364,13 @@ export default class Slider extends PureComponent {
     this._setCurrentValue(updatedValue);
     this._fireChangeEvent('onValueChange');
 
-    return this._thumbHitTest(e);
+    return true;
   };
 
   _handleMoveShouldSetPanResponder(/*e: Object, gestureState: Object*/): boolean {
     // Should we become active when the user moves a touch over the thumb?
     console.log('#2')
-    return false;
+    return true;
   };
 
   _handlePanResponderGrant = (/*e: Object, gestureState: Object*/) => {
@@ -397,7 +397,7 @@ export default class Slider extends PureComponent {
   _handlePanResponderRequestEnd(e: Object, gestureState: Object) {
     
     // Should we allow another component to take over this pan?
-    return false;
+    return true;
   };
 
   _handlePanResponderEnd = (e: Object, gestureState: Object) => {
